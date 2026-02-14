@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapheal ❤️ Debby</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffb6d9, #ff69b4);
+  color: white;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* INTRO SCREEN */
+#intro {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff69b4, #ff1493);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  animation: fadeOut 3s forwards;
+  animation-delay: 4s;
+}
+
+@keyframes fadeOut {
+  to {opacity: 0; visibility: hidden;}
+}
+
+/* FLOATING HEARTS */
+.heart {
+  position: fixed;
+  bottom: -10px;
+  color: #ffffff;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  from {transform: translateY(0);}
+  to {transform: translateY(-110vh);}
+}
+
+.container {
+  padding: 30px 15px;
+  max-width: 900px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.love-box {
+  background: rgba(255,255,255,0.2);
+  padding: 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(255,255,255,0.5);
+}
+
+.meme img {
+  width: 90%;
+  max-width: 350px;
+  border-radius: 15px;
+  margin-top: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+button {
+  padding: 12px 25px;
+  margin: 10px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.main-btn { background: white; color: #ff1493; }
+.yes-btn { background: #ff1493; color: white; }
+.no-btn { background: #ff4da6; color: white; position: absolute; }
+
+#proposal, #secret { display: none; margin-top: 20px; }
+
+#anniversaryTimer {
+  font-size: 1.3rem;
+  margin-top: 10px;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+footer {
+  margin-top: 60px;
+  padding: 20px;
+  font-size: 0.9rem;
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <h1>Loading Our Love Story 💕</h1>
+  <p>Rapheal ❤️ Debby</p>
+</div>
+
+<!-- MUSIC -->
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+</audio>
+
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+
+  <h1 id="typing"></h1>
+  <div class="subtitle">My favorite human. My forever person. 💖</div>
+
+  <div class="love-box">
+    <p>Debby, you are sunshine in human form.</p>
+    <p>Your smile makes my whole world brighter.</p>
+    <p>Your love feels safe, warm and magical.</p>
+    <p>I choose you. Every single day. 💗</p>
+  </div>
+
+  <h2>Time Since We Started Dating 💞</h2>
+  <p id="anniversaryTimer"></p>
+
+  <div class="meme">
+    <h3>Me trying to act normal when you text 😂</h3>
+    <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif">
+  </div>
+
+  <div class="meme">
+    <h3>My heart when I see you 😭💖</h3>
+    <img src="https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/giphy.gif">
+  </div>
+
+  <button class="main-btn" onclick="showProposal()">Click If You Love Rapheal 😌</button>
+  <button class="main-btn" onclick="askPassword()">Unlock Secret Message 🔐</button>
+
+  <div id="proposal">
+    <h2>Debby… Will You Marry Me? 💍</h2>
+    <button class="yes-btn" onclick="startFireworks()">Yes</button>
+    <button class="no-btn" onmouseover="moveNo()">No</button>
+  </div>
+
+  <div id="secret">
+    <h2>My Secret Promise 💌</h2>
+    <p>I promise to protect your heart.</p>
+    <p>I promise to grow with you.</p>
+    <p>I promise to love you loudly and softly.</p>
+  </div>
+
+</div>
+
+<footer>
+  ™ Made by Rapheal with Love 💕
+</footer>
+
+<script>
+/* Typing */
+const text = "Debby ❤️";
+let i = 0;
+function typing() {
+  if (i < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typing, 150);
+  }
+}
+typing();
+
+/* Anniversary Timer */
+const startDate = new Date("February 10, 2026 00:00:00").getTime();
+function updateTimer() {
+  const now = new Date().getTime();
+  const difference = now - startDate;
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((difference / (1000 * 60)) % 60);
+  const seconds = Math.floor((difference / 1000) % 60);
+  document.getElementById("anniversaryTimer").innerHTML =
+    days + " Days " + hours + " Hours " + minutes + " Minutes " + seconds + " Seconds 💗";
+}
+setInterval(updateTimer, 1000);
+
+/* Floating Hearts */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "💗";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 15 + "px";
+  heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 500);
+
+/* Proposal */
+function showProposal() {
+  document.getElementById("proposal").style.display = "block";
+}
+
+function moveNo() {
+  const noBtn = document.querySelector(".no-btn");
+  noBtn.style.top = Math.random() * window.innerHeight + "px";
+  noBtn.style.left = Math.random() * window.innerWidth + "px";
+}
+
+/* Password */
+function askPassword() {
+  const pass = prompt("Enter the secret password 💕");
+  if(pass === "forever") {
+    document.getElementById("secret").style.display = "block";
+  } else {
+    alert("Wrong password 😭 Try again.");
+  }
+}
+
+/* Fireworks */
+function startFireworks() {
+  alert("She said YES 😍💖 Forever starts now!");
+  const canvas = document.getElementById("fireworks");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  for(let i=0;i<120;i++){
+    ctx.fillStyle = "hsl(" + Math.random()*360 + ",100%,60%)";
+    ctx.beginPath();
+    ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, 4, 0, Math.PI*2);
+    ctx.fill();
+  }
+}
+</script>
+
+</body>
+</html>
